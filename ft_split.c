@@ -6,7 +6,7 @@
 /*   By: cduffaut <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:31:26 by cduffaut          #+#    #+#             */
-/*   Updated: 2023/10/11 14:37:16 by cduffaut         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:35:40 by cduffaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@ char	*cpypste(char const *s, int i, char c)
 	return (str);
 }
 
+char	**free_split(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	tab = NULL;
+	return (tab);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**tab;
@@ -66,7 +81,11 @@ char	**ft_split(char const *s, char c)
 		while (s[i] && s[i] == c)
 			i++;
 		if (s[i] && s[i] != c)
+		{
 			tab[j++] = cpypste(s, i, c);
+			if (tab[j - 1] == NULL)
+				return (free_split(tab));
+		}
 		while (s[i] && s[i] != c)
 			i++;
 	}
